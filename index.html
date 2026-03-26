@@ -1,159 +1,160 @@
-<!-- 1. Importation de Tailwind CSS et Lucide Icons -->
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/lucide@latest"></script>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outil EDF Gaz - Papernest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @font-face {
+            font-family: 'Avenir';
+            src: local('Avenir'), local('Avenir-Light');
+        }
+        #papernest-edf-tool {
+            font-family: 'Avenir', system-ui, -apple-system, sans-serif;
+            background-color: transparent;
+            width: 100%;
+            display: block;
+        }
+        #papernest-edf-tool .hide-element { 
+            display: none !important; 
+        }
+        #papernest-edf-tool #dropdown-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+        #papernest-edf-tool #dropdown-menu::-webkit-scrollbar-thumb {
+            background-color: #E7E5E4;
+            border-radius: 10px;
+        }
+        #desc-container {
+            transition: all 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-transparent">
 
-<!-- 2. Styles encapsulés -->
-<style>
-    @font-face {
-        font-family: 'Avenir';
-        src: local('Avenir'), local('Avenir-Light');
-    }
-    #papernest-edf-tool {
-        font-family: 'Avenir', system-ui, -apple-system, sans-serif;
-        background-color: transparent;
-        width: 100%;
-        display: block;
-    }
-    #papernest-edf-tool .hide-element { 
-        display: none !important; 
-    }
-    #papernest-edf-tool #dropdown-menu::-webkit-scrollbar {
-        width: 6px;
-    }
-    #papernest-edf-tool #dropdown-menu::-webkit-scrollbar-thumb {
-        background-color: #E7E5E4;
-        border-radius: 10px;
-    }
-    #desc-container {
-        transition: all 0.3s ease-out;
-    }
-</style>
-
-<!-- 3. Structure de l'outil (HTML) -->
 <div id="papernest-edf-tool" class="text-[#1C1917] antialiased">
-    <!-- Suppression du justify-center pour laisser le flux naturel gérer le centrage -->
     <div class="flex flex-col items-center py-2 w-full">
         
-        <!-- Titre Principal -->
-        <h1 class="text-lg md:text-xl font-bold mb-6 text-center tracking-tight w-full">
-            Trouvez votre offre de gaz EDF
-        </h1>
-
-        <!-- Carte Principale (Passée en w-full pour s'adapter à l'iframe) -->
-        <div class="bg-white rounded-[24px] w-full border border-[#E7E5E4] p-6 md:p-10 shadow-sm">
+        <!-- Conteneur Principal avec Bord Arrondis -->
+        <div class="bg-white rounded-[24px] w-full border border-[#E7E5E4] shadow-sm overflow-hidden">
             
-            <p class="text-[#57534D] text-sm md:text-base mb-8 text-left">
-                Consultez les détails de chaque offre de gaz naturel et trouvez celle qui correspond le mieux à vos besoins de chauffage, d'eau chaude ou de cuisson.
-            </p>
+            <!-- Bandeau Supérieur Intégré -->
+            <div class="bg-[#FAFAF9] px-6 md:px-10 py-4 border-b border-[#E7E5E4] flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <img src="https://d11o8pt3cttu38.cloudfront.net/wp-content/uploads/sites/12/2026/01/edf.svg" alt="Logo EDF" class="h-7 w-auto">
+                    <span class="h-4 w-px bg-[#D6D3D1]"></span>
+                    <span class="text-[10px] font-bold text-[#79716B] uppercase tracking-widest">Fournisseur historique</span>
+                </div>
+            </div>
 
-            <!-- Menu Déroulant -->
-            <div class="mb-8" id="dropdown-container">
-                <label class="block text-sm font-semibold mb-3">
-                    Sélectionnez une offre
-                </label>
+            <!-- Corps de l'Outil -->
+            <div class="p-6 md:p-10">
+                <h1 class="text-xl font-bold mb-4 tracking-tight text-[#1C1917]">Trouvez votre offre de gaz EDF</h1>
+                <p class="text-[#57534D] text-sm md:text-base mb-8 text-left leading-relaxed">
+                    Consultez les détails de chaque offre de gaz naturel et trouvez celle qui correspond le mieux à vos besoins de chauffage, d'eau chaude ou de cuisson.
+                </p>
                 
-                <div id="select-btn" class="w-full bg-[#F6F5FF] border border-[#CECCFF] hover:border-[#5A52FF] text-sm py-3 px-4 rounded-xl transition-all font-medium cursor-pointer flex items-center justify-between">
-                    <div class="flex items-center gap-3 truncate pr-4">
-                        <span id="select-icon" class="text-[#5A52FF] flex-shrink-0 flex items-center justify-center w-4 h-4">
-                            <i data-lucide="layout-list" class="w-4 h-4"></i>
-                        </span>
-                        <span id="select-text" class="text-[#5A52FF] font-semibold truncate">Sélectionnez une offre de gaz...</span>
-                    </div>
-                    <i data-lucide="chevron-down" id="select-chevron" class="w-4 h-4 text-[#5A52FF] flex-shrink-0 transition-transform duration-200"></i>
-                </div>
-
-                <div id="dropdown-menu" class="hide-element relative w-full mt-2 bg-white border border-[#E7E5E4] rounded-xl shadow-md max-h-[400px] overflow-y-auto py-2 z-10">
-                    <!-- Les options seront injectées ici par JavaScript -->
-                </div>
-            </div>
-
-            <!-- Zone de Description -->
-            <div id="desc-container" class="hide-element mb-8 p-4 rounded-xl border opacity-0 transform translate-y-2">
-                <div class="flex items-start gap-3">
-                    <span id="desc-icon-wrapper" class="flex-shrink-0 mt-0.5 w-5 h-5 flex items-center justify-center">
-                        <i data-lucide="info" class="w-5 h-5"></i>
-                    </span>
-                    <div class="w-full">
-                        <h4 id="desc-title" class="font-semibold text-[#1B194D] text-base mb-3"></h4>
-                        <div id="profil-box" class="flex items-start gap-3 p-3 bg-white rounded-xl shadow-sm border border-white/50 mb-4">
-                            <div id="profil-icon-bg" class="flex-shrink-0 p-1.5 rounded-lg">
-                                <i data-lucide="user-check" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <p class="text-[11px] font-bold text-[#A6A09B] uppercase tracking-wider mb-0.5">Profil idéal</p>
-                                <p id="desc-profil-text" class="text-sm font-medium text-[#1B194D]"></p>
-                            </div>
+                <!-- Menu Déroulant -->
+                <div class="mb-8 relative" id="dropdown-container">
+                    <label class="block text-sm font-bold mb-3 text-[#1C1917]">Quelle offre vous intéresse ?</label>
+                    <div id="select-btn" class="w-full bg-[#F6F5FF] border border-[#CECCFF] hover:border-[#5A52FF] text-sm py-4 px-5 rounded-xl transition-all font-semibold cursor-pointer flex items-center justify-between">
+                        <div class="flex items-center gap-3 truncate pr-4">
+                            <span id="select-icon" class="text-[#5A52FF] flex-shrink-0 flex items-center justify-center w-4 h-4">
+                                <i data-lucide="layout-list" class="w-4 h-4"></i>
+                            </span>
+                            <span id="select-text" class="text-[#5A52FF] truncate">Sélectionner une offre...</span>
                         </div>
-                        <div id="desc-text" class="text-[#57534D] text-sm leading-relaxed"></div>
+                        <i data-lucide="chevron-down" id="select-chevron" class="w-4 h-4 text-[#5A52FF] transition-transform duration-200"></i>
+                    </div>
+                    
+                    <!-- Liste des options (injectée par JS) -->
+                    <div id="dropdown-menu" class="hide-element relative w-full mt-2 bg-white border border-[#E7E5E4] rounded-xl shadow-xl max-h-[350px] overflow-y-auto py-2 z-10"></div>
+                </div>
+
+                <!-- Zone de Description Dynamique -->
+                <div id="desc-container" class="hide-element mb-8 p-6 rounded-2xl border opacity-0 transform translate-y-2">
+                    <div class="flex items-start gap-4">
+                        <span id="desc-icon-wrapper" class="flex-shrink-0 mt-0.5 w-5 h-5 flex items-center justify-center"></span>
+                        <div class="w-full">
+                            <h4 id="desc-title" class="font-bold text-[#1B194D] text-lg mb-3"></h4>
+                            
+                            <!-- Encadré Profil Idéal -->
+                            <div class="flex items-start gap-3 p-3 bg-white rounded-xl shadow-sm border border-white/50 mb-4">
+                                <div id="profil-icon-bg" class="flex-shrink-0 p-1.5 rounded-lg">
+                                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] font-bold text-[#A6A09B] uppercase tracking-wider mb-0.5">Profil idéal</p>
+                                    <p id="desc-profil-text" class="text-sm font-medium text-[#1B194D]"></p>
+                                </div>
+                            </div>
+
+                            <div id="desc-text" class="text-[#57534D] text-sm leading-relaxed"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Bouton CTA -->
-            <div id="cta-container" class="flex justify-center mt-6">
-                <button 
-                    id="cta-btn" 
-                    class="w-full sm:w-auto min-w-[240px] bg-[#5A52FF] hover:bg-[#443EC1] text-white font-bold text-base py-3.5 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 group opacity-40 pointer-events-none"
-                >
-                    <span>Voir l'offre !</span>
-                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                </button>
+                <!-- Bouton d'Appel à l'Action (CTA) -->
+                <div class="flex justify-center mt-6">
+                    <button id="cta-btn" class="w-full sm:w-auto min-w-[260px] bg-[#5A52FF] hover:bg-[#443EC1] text-white font-bold text-base py-4 px-8 rounded-xl transition-all duration-200 shadow-lg flex items-center justify-center gap-3 group opacity-40 pointer-events-none">
+                        <span>Voir l'offre !</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
             </div>
-            
         </div>
     </div>
 </div>
 
-<!-- 4. Logique Interactive (JavaScript) -->
 <script>
+    // Initialisation des icônes
     if (typeof lucide !== 'undefined') { lucide.createIcons(); }
 
-    const offers = [
+    // Données des offres de gaz
+    const gasOffers = [
         { 
             id: 'gaz-optimise', 
             name: "Avantage Gaz Optimisé", 
             url: "https://www.papernest.com/demarches-energie/edf/offres/gaz-optimise/", 
             type: "gaz", 
-            profil: "Foyers souhaitant payer leur gaz au prix le plus juste du marché, sans blocage de prix.",
-            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Prix du kWh HT indexé sur le Prix Repère de Vente de Gaz (PRVG) publié par la CRE.</li><li>Permet de bénéficier immédiatement des baisses des prix du marché.</li><li>Offre sans engagement de durée, résiliable à tout moment sans frais.</li></ul>" 
+            profil: "Foyers souhaitant payer leur gaz au prix le plus juste du marché.", 
+            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Prix indexé sur le Marché (PRVG).</li><li>Bénéficiez immédiatement des baisses du marché.</li><li>Sans engagement et sans frais de résiliation.</li></ul>" 
         },
         { 
             id: 'gaz-2ans', 
             name: "Avantage Gaz 2 ans", 
             url: "https://www.papernest.com/demarches-energie/edf/offres/gaz-2ans/", 
             type: "gaz", 
-            profil: "Foyers recherchant une stabilité budgétaire totale et une protection contre les hausses hivernales.",
-            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Le prix du kWh HT est bloqué pendant une durée de 2 ans.</li><li>Protection garantie contre toute augmentation des prix du gaz sur le marché pendant le contrat.</li><li>Liberté de résiliation totale : sans frais et à tout moment.</li></ul>" 
+            profil: "Foyers recherchant une stabilité budgétaire totale contre les hausses.", 
+            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Prix du kWh HT bloqué pendant une durée de 2 ans.</li><li>Protection garantie contre les augmentations hivernales.</li><li>Liberté de résiliation totale à tout moment.</li></ul>" 
         },
         { 
             id: 'gaz-durable', 
             name: "Avantage Gaz Durable", 
             url: "https://www.papernest.com/demarches-energie/edf/offres/", 
             type: "gaz", 
-            profil: "Consommateurs soucieux de leur empreinte carbone souhaitant compenser leurs émissions liées au chauffage.",
-            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Prix du kWh HT fixe pendant une durée déterminée.</li><li>Compensation carbone : EDF finance des projets de réduction d'émissions de CO2.</li><li>Soutien au développement de la filière biométhane en France.</li></ul>" 
+            profil: "Consommateurs soucieux de leur impact environnemental.", 
+            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Prix fixe pendant la durée de votre contrat.</li><li>Compensation carbone financée par EDF pour vos émissions.</li><li>Soutien au développement de la filière biométhane en France.</li></ul>" 
         },
         { 
             id: 'gaz-pro', 
             name: "Offres Gaz (Professionnels)", 
             url: "https://www.papernest.com/demarches-energie/edf/offres/", 
             type: "pro", 
-            profil: "Entreprises, copropriétés ou collectivités ayant une consommation de gaz importante pour leurs locaux.",
-            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Offres de marché adaptées aux profils de consommation des professionnels.</li><li>Accompagnement par des conseillers experts EDF Entreprises.</li><li>Structure tarifaire optimisée pour les gros volumes.</li></ul>" 
+            profil: "Entreprises ou copropriétés avec une consommation importante de gaz.", 
+            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Offres de marché adaptées aux profils de consommation pros.</li><li>Accompagnement par des conseillers experts EDF Entreprises.</li><li>Structure tarifaire optimisée pour les volumes professionnels.</li></ul>" 
         }
     ];
 
+    // Thèmes de couleurs selon le type d'offre
     const typeColors = {
         gaz: { text: '#E17100', bg: '#FFFBEB', border: '#FEE685', icon: 'flame' },
-        pro: { text: '#02C5AE', bg: '#F3FCFB', border: '#B4EEE7', icon: 'building-2' },
-        default: { text: '#A6A09B', bg: '#FAFAF9', border: '#E7E5E4', icon: 'layout-list' }
+        pro: { text: '#02C5AE', bg: '#F3FCFB', border: '#B4EEE7', icon: 'building-2' }
     };
 
-    const groupedOffers = {
-        "Offres Gaz Particuliers": offers.filter(o => o.type === 'gaz'),
-        "Offres Gaz Professionnels": offers.filter(o => o.type === 'pro')
-    };
-
+    // Sélection des éléments du DOM
     const selectBtn = document.getElementById('select-btn');
     const selectText = document.getElementById('select-text');
     const selectIcon = document.getElementById('select-icon');
@@ -170,12 +171,12 @@
     let isOpen = false;
     let selectedOffer = null;
 
+    // Gestion du redimensionnement de l'iframe
     function sendResize() {
         requestAnimationFrame(() => {
-            const height = document.body.scrollHeight;
             window.parent.postMessage({
                 type: 'papernest-tool-resize',
-                height: height
+                height: document.body.scrollHeight
             }, '*');
         });
     }
@@ -183,26 +184,25 @@
     const observer = new ResizeObserver(() => sendResize());
     observer.observe(document.body);
 
+    // Remplissage du menu déroulant
     function renderDropdown() {
-        dropdownMenu.innerHTML = '';
-        Object.entries(groupedOffers).forEach(([groupName, groupOffers]) => {
-            if(groupOffers.length === 0) return;
-            const groupDiv = document.createElement('div');
-            groupDiv.className = 'mb-2 last:mb-0';
-            const header = document.createElement('div');
-            header.className = 'px-4 py-2 text-[10px] font-bold text-[#A6A09B] uppercase tracking-wider bg-white sticky top-0 z-10';
-            header.innerText = groupName;
-            groupDiv.appendChild(header);
-
-            groupOffers.forEach(offer => {
-                const theme = typeColors[offer.type];
-                const item = document.createElement('div');
-                item.className = 'offer-item flex items-center justify-between px-4 py-2.5 cursor-pointer transition-colors hover:bg-[#FAFAF9]';
-                item.innerHTML = `<div class="flex items-center gap-3"><i data-lucide="${theme.icon}" class="w-4 h-4 item-icon text-[#A6A09B]"></i><span class="text-sm text-[#57534D] item-text">${offer.name}</span></div><i data-lucide="check" class="w-4 h-4 hide-element item-check" style="color: ${theme.text}"></i>`;
-                item.onclick = (e) => { e.stopPropagation(); selectOffer(offer, item); closeDropdown(); };
-                groupDiv.appendChild(item);
-            });
-            dropdownMenu.appendChild(groupDiv);
+        gasOffers.forEach(offer => {
+            const theme = typeColors[offer.type];
+            const item = document.createElement('div');
+            item.className = 'flex items-center justify-between px-5 py-3 cursor-pointer hover:bg-[#FAFAF9] transition-colors';
+            item.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <i data-lucide="${theme.icon}" class="w-4 h-4 text-[#A6A09B]"></i>
+                    <span class="text-sm font-medium text-[#57534D]">${offer.name}</span>
+                </div>
+                <i data-lucide="check" class="w-4 h-4 hide-element" style="color: ${theme.text}"></i>
+            `;
+            item.onclick = (e) => { 
+                e.stopPropagation(); 
+                selectOffer(offer, item); 
+                closeDropdown(); 
+            };
+            dropdownMenu.appendChild(item);
         });
         lucide.createIcons();
     }
@@ -212,8 +212,6 @@
         if (isOpen) {
             dropdownMenu.classList.remove('hide-element');
             selectChevron.classList.add('rotate-180');
-            selectBtn.classList.replace('border-[#CECCFF]', 'border-[#5A52FF]');
-            selectBtn.classList.add('ring-1', 'ring-[#5A52FF]');
         } else {
             closeDropdown();
         }
@@ -223,22 +221,20 @@
         isOpen = false;
         dropdownMenu.classList.add('hide-element');
         selectChevron.classList.remove('rotate-180');
-        if(!selectedOffer) {
-            selectBtn.classList.replace('border-[#5A52FF]', 'border-[#CECCFF]');
-            selectBtn.classList.remove('ring-1', 'ring-[#5A52FF]');
-        }
     }
 
     function selectOffer(offer, itemElement) {
         selectedOffer = offer;
         const theme = typeColors[offer.type];
+        
+        // Mise à jour visuelle du sélecteur
         selectText.innerText = offer.name;
-        selectText.className = 'truncate text-[#1C1917] font-semibold';
+        selectText.className = 'truncate text-[#1C1917] font-bold';
         selectIcon.innerHTML = `<i data-lucide="${theme.icon}" class="w-4 h-4" style="color: ${theme.text}"></i>`;
-        selectBtn.classList.remove('bg-[#F6F5FF]', 'hover:border-[#5A52FF]');
-        selectBtn.classList.add('bg-white', 'border-[#5A52FF]', 'ring-1', 'ring-[#5A52FF]');
-        selectChevron.classList.replace('text-[#5A52FF]', 'text-[#79716B]');
+        selectBtn.classList.remove('bg-[#F6F5FF]');
+        selectBtn.classList.add('bg-white', 'border-[#5A52FF]', 'ring-2', 'ring-indigo-50');
 
+        // Mise à jour de la zone de description
         descContainer.style.backgroundColor = theme.bg;
         descContainer.style.borderColor = theme.border;
         descTitle.innerText = offer.name;
@@ -246,20 +242,31 @@
         profilIconBg.style.backgroundColor = theme.bg;
         profilIconBg.style.color = theme.text;
         descText.innerHTML = offer.description;
-        descIconWrapper.innerHTML = `<i data-lucide="info" class="w-5 h-5" style="color: ${theme.text}"></i>`;
+        descIconWrapper.innerHTML = `<i data-lucide="${theme.icon}" class="w-5 h-5" style="color: ${theme.text}"></i>`;
         
+        // Affichage avec animation
         descContainer.classList.remove('hide-element');
-        setTimeout(() => descContainer.classList.remove('opacity-0', 'translate-y-2'), 10);
+        setTimeout(() => {
+            descContainer.classList.replace('opacity-0', 'opacity-100');
+            descContainer.classList.remove('translate-y-2');
+        }, 10);
+        
+        // Activation du bouton
         ctaBtn.classList.remove('opacity-40', 'pointer-events-none');
+        
         lucide.createIcons();
     }
 
+    // Événements
     selectBtn.onclick = (e) => { e.stopPropagation(); toggleDropdown(); };
-    document.onclick = (e) => { if (isOpen && !document.getElementById('dropdown-container').contains(e.target)) closeDropdown(); };
+    document.onclick = () => closeDropdown();
     ctaBtn.onclick = () => { if (selectedOffer) window.open(selectedOffer.url, '_blank'); };
 
-    window.onload = () => {
-        renderDropdown();
-        sendResize();
+    // Initialisation au chargement
+    window.onload = () => { 
+        renderDropdown(); 
+        sendResize(); 
     };
 </script>
+</body>
+</html>
