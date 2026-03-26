@@ -31,15 +31,16 @@
 
 <!-- 3. Structure de l'outil (HTML) -->
 <div id="papernest-edf-tool" class="text-[#1C1917] antialiased">
-    <div class="flex flex-col items-center justify-center py-2 w-full">
+    <!-- Suppression du justify-center pour laisser le flux naturel gérer le centrage -->
+    <div class="flex flex-col items-center py-2 w-full">
         
         <!-- Titre Principal -->
-        <h1 class="text-lg md:text-xl font-bold mb-6 text-center tracking-tight">
+        <h1 class="text-lg md:text-xl font-bold mb-6 text-center tracking-tight w-full">
             Trouvez votre offre de gaz EDF
         </h1>
 
-        <!-- Carte Principale -->
-        <div class="bg-white rounded-[24px] w-full max-w-4xl border border-[#E7E5E4] p-6 md:p-10 shadow-sm mx-auto">
+        <!-- Carte Principale (Passée en w-full pour s'adapter à l'iframe) -->
+        <div class="bg-white rounded-[24px] w-full border border-[#E7E5E4] p-6 md:p-10 shadow-sm">
             
             <p class="text-[#57534D] text-sm md:text-base mb-8 text-left">
                 Consultez les détails de chaque offre de gaz naturel et trouvez celle qui correspond le mieux à vos besoins de chauffage, d'eau chaude ou de cuisson.
@@ -51,7 +52,6 @@
                     Sélectionnez une offre
                 </label>
                 
-                <!-- Bouton de sélection (Violet pour la cohérence avec Elec) -->
                 <div id="select-btn" class="w-full bg-[#F6F5FF] border border-[#CECCFF] hover:border-[#5A52FF] text-sm py-3 px-4 rounded-xl transition-all font-medium cursor-pointer flex items-center justify-between">
                     <div class="flex items-center gap-3 truncate pr-4">
                         <span id="select-icon" class="text-[#5A52FF] flex-shrink-0 flex items-center justify-center w-4 h-4">
@@ -62,13 +62,12 @@
                     <i data-lucide="chevron-down" id="select-chevron" class="w-4 h-4 text-[#5A52FF] flex-shrink-0 transition-transform duration-200"></i>
                 </div>
 
-                <!-- Menu d'options (Positionné en relatif pour pousser le contenu) -->
                 <div id="dropdown-menu" class="hide-element relative w-full mt-2 bg-white border border-[#E7E5E4] rounded-xl shadow-md max-h-[400px] overflow-y-auto py-2 z-10">
                     <!-- Les options seront injectées ici par JavaScript -->
                 </div>
             </div>
 
-            <!-- Zone de Description (Garde les couleurs spécifiques) -->
+            <!-- Zone de Description -->
             <div id="desc-container" class="hide-element mb-8 p-4 rounded-xl border opacity-0 transform translate-y-2">
                 <div class="flex items-start gap-3">
                     <span id="desc-icon-wrapper" class="flex-shrink-0 mt-0.5 w-5 h-5 flex items-center justify-center">
@@ -76,8 +75,6 @@
                     </span>
                     <div class="w-full">
                         <h4 id="desc-title" class="font-semibold text-[#1B194D] text-base mb-3"></h4>
-                        
-                        <!-- Profil Type Box -->
                         <div id="profil-box" class="flex items-start gap-3 p-3 bg-white rounded-xl shadow-sm border border-white/50 mb-4">
                             <div id="profil-icon-bg" class="flex-shrink-0 p-1.5 rounded-lg">
                                 <i data-lucide="user-check" class="w-4 h-4"></i>
@@ -87,13 +84,12 @@
                                 <p id="desc-profil-text" class="text-sm font-medium text-[#1B194D]"></p>
                             </div>
                         </div>
-
                         <div id="desc-text" class="text-[#57534D] text-sm leading-relaxed"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Bouton CTA (Violet pour la cohérence) -->
+            <!-- Bouton CTA -->
             <div id="cta-container" class="flex justify-center mt-6">
                 <button 
                     id="cta-btn" 
@@ -119,7 +115,7 @@
             url: "https://www.papernest.com/demarches-energie/edf/offres/gaz-optimise/", 
             type: "gaz", 
             profil: "Foyers souhaitant payer leur gaz au prix le plus juste du marché, sans blocage de prix.",
-            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Prix du kWh HT indexé sur le Prix Repère de Vente de Gaz (PRVG) publié par la CRE.</li><li>Permet de bénéficier immédiatement des baisses des prix du marché.</li><li>Offre sans engagement de durée, résiliable à tout moment sans frais.</li><li>Idéal pour ceux qui suivent l'évolution des prix de l'énergie.</li></ul>" 
+            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Prix du kWh HT indexé sur le Prix Repère de Vente de Gaz (PRVG) publié par la CRE.</li><li>Permet de bénéficier immédiatement des baisses des prix du marché.</li><li>Offre sans engagement de durée, résiliable à tout moment sans frais.</li></ul>" 
         },
         { 
             id: 'gaz-2ans', 
@@ -127,7 +123,7 @@
             url: "https://www.papernest.com/demarches-energie/edf/offres/gaz-2ans/", 
             type: "gaz", 
             profil: "Foyers recherchant une stabilité budgétaire totale et une protection contre les hausses hivernales.",
-            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Le prix du kWh HT est bloqué pendant une durée de 2 ans.</li><li>Protection garantie contre toute augmentation des prix du gaz sur le marché pendant le contrat.</li><li>Liberté de résiliation totale : sans frais et à tout moment.</li><li>Permet de mieux anticiper ses factures de chauffage.</li></ul>" 
+            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Le prix du kWh HT est bloqué pendant une durée de 2 ans.</li><li>Protection garantie contre toute augmentation des prix du gaz sur le marché pendant le contrat.</li><li>Liberté de résiliation totale : sans frais et à tout moment.</li></ul>" 
         },
         { 
             id: 'gaz-durable', 
@@ -135,7 +131,7 @@
             url: "https://www.papernest.com/demarches-energie/edf/offres/", 
             type: "gaz", 
             profil: "Consommateurs soucieux de leur empreinte carbone souhaitant compenser leurs émissions liées au chauffage.",
-            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Prix du kWh HT fixe pendant une durée déterminée.</li><li>Compensation carbone : EDF achète des crédits carbone pour financer des projets de réduction d'émissions de CO2.</li><li>Soutien au développement de la filière biométhane en France.</li><li>Sans engagement et résiliable sans frais.</li></ul>" 
+            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Prix du kWh HT fixe pendant une durée déterminée.</li><li>Compensation carbone : EDF finance des projets de réduction d'émissions de CO2.</li><li>Soutien au développement de la filière biométhane en France.</li></ul>" 
         },
         { 
             id: 'gaz-pro', 
@@ -143,14 +139,13 @@
             url: "https://www.papernest.com/demarches-energie/edf/offres/", 
             type: "pro", 
             profil: "Entreprises, copropriétés ou collectivités ayant une consommation de gaz importante pour leurs locaux.",
-            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Offres de marché adaptées aux profils de consommation des professionnels.</li><li>Accompagnement par des conseillers experts EDF Entreprises.</li><li>Possibilité de prix fixes ou indexés selon la stratégie de l'entreprise.</li><li>Structure tarifaire optimisée pour les gros volumes.</li></ul>" 
+            description: "<ul class='list-disc pl-5 space-y-1.5'><li>Offres de marché adaptées aux profils de consommation des professionnels.</li><li>Accompagnement par des conseillers experts EDF Entreprises.</li><li>Structure tarifaire optimisée pour les gros volumes.</li></ul>" 
         }
     ];
 
     const typeColors = {
         gaz: { text: '#E17100', bg: '#FFFBEB', border: '#FEE685', icon: 'flame' },
         pro: { text: '#02C5AE', bg: '#F3FCFB', border: '#B4EEE7', icon: 'building-2' },
-        primary: { text: '#5A52FF', bg: '#F6F5FF', border: '#CECCFF' },
         default: { text: '#A6A09B', bg: '#FAFAF9', border: '#E7E5E4', icon: 'layout-list' }
     };
 
@@ -237,17 +232,13 @@
     function selectOffer(offer, itemElement) {
         selectedOffer = offer;
         const theme = typeColors[offer.type];
-        
-        // Mise à jour du bouton Select (Reste sobre en blanc/violet après sélection)
         selectText.innerText = offer.name;
         selectText.className = 'truncate text-[#1C1917] font-semibold';
         selectIcon.innerHTML = `<i data-lucide="${theme.icon}" class="w-4 h-4" style="color: ${theme.text}"></i>`;
-        
         selectBtn.classList.remove('bg-[#F6F5FF]', 'hover:border-[#5A52FF]');
         selectBtn.classList.add('bg-white', 'border-[#5A52FF]', 'ring-1', 'ring-[#5A52FF]');
         selectChevron.classList.replace('text-[#5A52FF]', 'text-[#79716B]');
 
-        // Mise à jour de la CARTE EXPLICATIVE (Garde Orange ou Vert)
         descContainer.style.backgroundColor = theme.bg;
         descContainer.style.borderColor = theme.border;
         descTitle.innerText = offer.name;
@@ -259,8 +250,6 @@
         
         descContainer.classList.remove('hide-element');
         setTimeout(() => descContainer.classList.remove('opacity-0', 'translate-y-2'), 10);
-
-        // Activation du bouton CTA (Reste violet)
         ctaBtn.classList.remove('opacity-40', 'pointer-events-none');
         lucide.createIcons();
     }
